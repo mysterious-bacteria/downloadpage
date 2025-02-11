@@ -411,7 +411,6 @@
         <div class="search-container">
             <div class="search-box">
                 <input type="text" class="search-input" placeholder="搜索资源..." loading="lazy">
-                <button class="search-button"><i class="fas fa-search"></i></button>
             </div>
         </div>
     </nav>
@@ -490,10 +489,6 @@
                     item.style.display = 'none';
                 }
             });
-
-            if (!found && searchTerm) {
-                alert('未找到相关资源，请尝试其他关键词。');
-            }
         });
 
         // 切换主题
