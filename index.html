@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="多功能下载页面">
+    <title>资源下载中心</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@6.4.0/css/all.min.css">
+    <style>
+
+        a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+        a:hover {
+            text-decoration: none;
+            color: #ffffff;
+        }
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ffffff;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #ffffff;
+            --secondary-color: #3498db;
+            --background-color: #1a1a1a;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: var(--background-color);
+            font-weight: bold;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--background-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-color);
+        }
+
+        /* 主内容区域 */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 2rem;
+        }
+
+        /* 搜索框 */
+        .search-container {
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+        }
+
+        .search-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* 下载卡片 */
+        .download-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .download-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .download-item:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .download-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .download-info {
+            flex: 1;
+        }
+
+        .download-info h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .download-info .meta {
+            color: rgba(var(--primary-color), 0.7);
+            font-size: 0.9rem;
+        }
+
+        .download-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .download-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* 分类标签 */
+        .category-tag {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .download-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .download-item img {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">资源下载中心</a>
+        <div class="nav-links">
+            <a href="https://shenmijun.us.kg" class="nav-link">主页</a>
+            <a href="https://space.bilibili.com/1796088972" class="nav-link">Bilibili</a>
+            <a href="https://github.com/mysterious-bacteria/" class="nav-link">Github</a>
+            <a href="./sources/" class="nav-link">目录</a>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <div class="container">
+        <!-- 搜索框 -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="搜索资源...">
+            </div>
+        </div>
+
+        <div class="download-card">
+            <div class="download-item">
+                <img src="https://source.unsplash.com/random/100x100" alt="文件图标">
+                <div class="download-info">
+                    <h4>【ADOFAT/自制谱】Treehouse</h4>
+                    <div class="meta">
+                        <span>大小：20615KB</span> • 
+                        <span>类别：ADOFAI</span> • 
+                        <span>更新时间：2025-2-11</span>
+                    </div>
+                </div>
+                <button class="download-button"><i class="fas fa-download"></i><a href="./sources/treehouse.zip">下载</a></button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer mt-5">
+        <div class="container text-center">
+            <div class="social-links">
+                <a href="https://github.com/mysterious-bacteria/">Github</a>
+                <a href="https://space.bilibili.com/1796088972">Bilibili</a>
+                <a href="https://shenmijun.us.kg">我的博客</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 搜索功能
+        const searchInput = document.querySelector('.search-input');
+        const downloadItems = document.querySelectorAll('.download-item');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            downloadItems.forEach(item => {
+                const title = item.querySelector('h4').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
